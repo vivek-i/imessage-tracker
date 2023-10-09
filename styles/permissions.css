@@ -77,3 +77,39 @@ h1 {
   animation-iteration-count: 1;
   animation-fill-mode: forwards;
 }
+
+#continueButton {
+  z-index: 101;
+  padding: 10px 20px;
+  border: #00bc99;
+  border-style: solid;
+  border-width: 1px;
+  border-radius: 5px;
+  background-color: #00bc9969;
+  width: 200px;
+  text-align: center;
+  margin-top: 30px;
+  color: #00bc99;
+  /* box-shadow: 0 10px 30px rgba(92, 164, 182, 0.4); */
+  transition: all 1s;
+  animation: bounce 1s ease-in-out infinite;
+  animation-fill-mode: both;
+  animation-direction: alternate;
+  font-family: "Kumbh Sans", sans-serif;
+  animation: fadeInAnimation ease 5s;
+  animation-fill-mode: forwards;
+  animation-iteration-count: 1;
+  visibility: hidden;
+}
+
+#continueButton:hover {
+  background-color: #00bc99;
+  color: black;
+  cursor: pointer;
+  transform: scale(1.05);
+  transition: all 0.2s;
+  box-shadow: 0 20px 40px rgba(92, 182, 136, 0.4);
+  animation: fadeInAnimation ease 5s;
+  animation-iteration-count: 1;
+  animation-fill-mode: forwards;
+}

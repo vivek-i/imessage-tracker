@@ -22,7 +22,7 @@ function createWindow() {
       contextIsolation: false,
     },
   });
-  mainWindow.loadFile("mostCommon.html");
+  mainWindow.loadFile("index.html");
   mainWindow.on("closed", function () {
     mainWindow = null;
   });

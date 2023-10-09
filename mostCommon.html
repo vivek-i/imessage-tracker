@@ -8,19 +8,102 @@
       href="https://fonts.googleapis.com/css2?family=Kumbh+Sans:wght@500&display=swap"
       rel="stylesheet"
     />
+    <script src="sql.js"></script>
     <meta charset="UTF-8" />
     <title>iMessage Tracker</title>
   </head>
   <body>
-    <div id="container">
-        <h1>Most Common Texts</h1>        
+    <div id="loader">
+      <div class="lds-ellipsis">
+        <div></div>
+        <div></div>
+        <div></div>
+        <div></div>
+      </div>
     </div>
-    
-        
+    <div id="container">
+      <h1>Most Common Texts</h1>
+    </div>
+
     <div id="gradient"></div>
 
     <script>
-      
+      (async () => {
+        let res = await fetch(
+          "/Users/vivekisukapalli/Library/messageTest/chat.db"
+        );
+        let arrayBuffer = await res.arrayBuffer();
+        let uInt8Array = new Uint8Array(arrayBuffer);
+        let db = new SQL.Database(uInt8Array);
+        var resultset = db.exec("SELECT * FROM message");
+        var columns = resultset[0]["columns"];
+        var values = resultset[0]["values"];
+        var handle = [];
+        for (let valArr of values) {
+          let obj = {};
+          for (let v in valArr) {
+            obj[columns[v]] = valArr[v];
+          }
+          handle.push(obj);
+        }
+        messageList = [];
+        for (var i = 0; i < handle.length; i++) {
+          messageList.push(handle[i].text);
+        }
+        const unique = new Set(messageList);
+        messageList.sort();
+        phraseCounts = [];
+
+        unique.forEach((phrase) => {
+          if (phrase != null && !(phrase.trim().length === 0)) {
+            const count =
+              messageList.lastIndexOf(phrase) - messageList.indexOf(phrase);
+            if (count != 0 && phrase != null) {
+              thisPhrase = { text: phrase, num: count };
+              phraseCounts.push(thisPhrase);
+            }
+          }
+        });
+
+        phraseCounts.sort(compareFrequencies);
+
+        for (var i = 0; i < phraseCounts.length; i++) {
+          if (
+            phraseCounts[i].num != 0 &&
+            phraseCounts[i].text != null &&
+            phraseCounts[i].text != ""
+          ) {
+            // console.log(phraseCounts[i].text, phraseCounts[i].num);
+          }
+        }
+
+        for (
+          var i = phraseCounts.length - 1;
+          i > phraseCounts.length - 50;
+          i--
+        ) {
+          var textDiv = document.createElement("div");
+          var text = document.createElement("p");
+          text.innerHTML = phraseCounts[i].num + " - " + phraseCounts[i].text;
+          textDiv.setAttribute("id", "text");
+          textDiv.appendChild(text);
+          document.getElementById("container").appendChild(textDiv);
+          // console.log(phraseCounts[i].text, phraseCounts[i].num);
+        }
+        const loader = document.getElementById("loader");
+        loader.style.display = "none";
+        console.log("done");
+      })();
+
+      function compareFrequencies(a, b) {
+        if (a.num < b.num) {
+          return -1;
+        }
+        if (a.num > b.num) {
+          return 1;
+        }
+        return 0;
+      }
     </script>
   </body>
 </html>

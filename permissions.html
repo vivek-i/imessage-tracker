@@ -16,18 +16,24 @@
     <button onclick="diskAccess()" id="permissionButton">
       Provide Disk Access
     </button>
-    <button onclick="contactsAccess()" id="permissionButton">
-      Provide Contact Access
+    <button
+      onclick="nextPage()"
+      id="continueButton"
+    >
+      Continue
     </button>
     <div id="gradient"></div>
 
     <script>
       const { ipcRenderer } = require("electron");
-      function contactsAccess() {
-        const { ipcRenderer } = require("electron");
-        ipcRenderer.send("request-contact-access");
+      function nextPage() {
+        document.location.href = "mostCommon.html";
       }
       function diskAccess() {
+        const continueButton = document.getElementById("continueButton");
+        continueButton.style.visibility = "visible";
+        const permissionButton = document.getElementById("permissionButton");
+        // permissionButton.style.visibility = "hidden";
         const { ipcRenderer } = require("electron");
         ipcRenderer.send("request-disk-access");
       }
