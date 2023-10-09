@@ -1,0 +1,79 @@
+@keyframes fadeInAnimation {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+
+* {
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  background-color: rgb(0, 16, 21);
+  height: 100vh;
+  width: 100vw;
+  overflow: hidden;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+}
+
+h1 {
+  color: white;
+  width: 100%;
+  text-align: center;
+  font-size: 30px;
+  font-family: "Kumbh Sans", sans-serif;
+  animation: fadeInAnimation ease 3s;
+  animation-iteration-count: 1;
+  animation-fill-mode: forwards;
+}
+
+#gradient {
+  width: 100vw;
+  height: 50vh;
+  position: absolute;
+  background: linear-gradient(rgba(0, 0, 0, 0), rgba(0, 0, 0, 1));
+  margin-top: 50vh;
+  z-index: 100;
+}
+
+#permissionButton {
+  z-index: 101;
+  padding: 10px 20px;
+  border: #00a6bc;
+  border-style: solid;
+  border-width: 1px;
+  border-radius: 5px;
+  background-color: #00a6bc7c;
+  width: 200px;
+  text-align: center;
+  margin-top: 30px;
+  color: #00a6bc;
+  /* box-shadow: 0 10px 30px rgba(92, 164, 182, 0.4); */
+  transition: all 1s;
+  animation: bounce 1s ease-in-out infinite;
+  animation-fill-mode: both;
+  animation-direction: alternate;
+  font-family: "Kumbh Sans", sans-serif;
+  animation: fadeInAnimation ease 5s;
+  animation-fill-mode: forwards;
+  animation-iteration-count: 1;
+}
+
+#permissionButton:hover {
+  background-color: #00a6bc;
+  color: black;
+  cursor: pointer;
+  transform: scale(1.05);
+  transition: all 0.2s;
+  box-shadow: 0 20px 40px rgba(92, 175, 182, 0.4);
+  animation: fadeInAnimation ease 5s;
+  animation-iteration-count: 1;
+  animation-fill-mode: forwards;
+}

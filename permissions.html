@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <link rel="stylesheet" href="styles/permissions.css" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Kumbh+Sans:wght@500&display=swap"
+      rel="stylesheet"
+    />
+    <meta charset="UTF-8" />
+    <title>iMessage Tracker</title>
+  </head>
+  <body>
+    <h1>But first we need some permissions</h1>
+    <button onclick="diskAccess()" id="permissionButton">
+      Provide Disk Access
+    </button>
+    <button onclick="contactsAccess()" id="permissionButton">
+      Provide Contact Access
+    </button>
+    <div id="gradient"></div>
+
+    <script>
+      const { ipcRenderer } = require("electron");
+      function contactsAccess() {
+        const { ipcRenderer } = require("electron");
+        ipcRenderer.send("request-contact-access");
+      }
+      function diskAccess() {
+        const { ipcRenderer } = require("electron");
+        ipcRenderer.send("request-disk-access");
+      }
+    </script>
+  </body>
+</html>

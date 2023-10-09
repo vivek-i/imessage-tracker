@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <link rel="stylesheet" href="styles/main.css" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Kumbh+Sans:wght@500&display=swap"
+      rel="stylesheet"
+    />
+    <meta charset="UTF-8" />
+    <title>iMessage Tracker</title>
+  </head>
+  <body>
+    <div id="background">
+      <div id="leftContainer">
+        <div id="transparentLayer">
+          <h1>iMessage Tracker</h1>
+          <p>A secure app that provides insights into your iMessage chats.</p>
+
+          <div id="buttonContainer">
+            <img src="textIcon.png" />
+            <button onclick="startClicked()" id="start">Get Started</button>
+            <button id="github">Github</button>
+          </div>
+        </div>
+      </div>
+      <div id="rightContainer">
+        <div id="scrollingMessages"></div>
+      </div>
+      <div id="gradient"></div>
+    </div>
+    <script src="sql.js"></script>
+
+    <script>
+      async function startClicked() {
+
+        for (var i = 0; i < 100; i++) {          
+          document.getElementById("transparentLayer").style.opacity = 1 - (i*0.01);
+          document.getElementById("scrollingMessages").style.opacity = 1 - (i*0.01);          
+          await delay(0.1);
+        }
+        document.getElementById("scrollingMessages").style.display = "none";
+        document.getElementById("transparentLayer").style.display = "none";
+        for (var i = 0; i < 50; i++) {          
+          document.getElementById("leftContainer").style.width = String(
+            50 - i + "vw"
+          );
+          document.getElementById("rightContainer").style.width = String(
+            50 + i + "vw"
+          );
+          await delay(0.1);
+        }
+        document.location.href = "permissions.html";
+      }
+
+      function delay(milliseconds) {
+        return new Promise((resolve) => {
+          setTimeout(resolve, milliseconds);
+        });
+      }
+
+
+      async function getDBfile() {
+        let jsonData = await fetch("config.json");
+        let user = await jsonData.json();
+        let username = user.username;
+        console.log(username);
+
+        let path = "/Users/" + username + "/Library/messageTest/chat.db";
+        // let dbFile = await fetch(path)
+        // let response = await dbFile.text();
+        // console.log(response);
+      }
+      (async () => {
+        let res = await fetch(
+          "/Users/vivekisukapalli/Library/messageTest/chat.db"
+        );
+        let arrayBuffer = await res.arrayBuffer();
+        let uInt8Array = new Uint8Array(arrayBuffer);
+        let db = new SQL.Database(uInt8Array);
+        var resultset = db.exec("SELECT * FROM message");
+        // console.log(resultset)
+        var columns = resultset[0]["columns"];
+        var values = resultset[0]["values"];
+        var handle = [];
+        for (let valArr of values) {
+          let obj = {};
+          for (let v in valArr) {
+            obj[columns[v]] = valArr[v];
+          }
+          handle.push(obj);
+        }
+        
+        for (var i = 0; i < handle.length; i++) {
+          // console.log(JSON.stringify(handle[i]));
+          console.log(handle[i].text)
+        }
+        console.log(handle.length)
+      })();
+
+      function extractTableJSONRecords() {}
+    </script>
+  </body>
+</html>
