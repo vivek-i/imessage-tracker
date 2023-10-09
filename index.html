@@ -34,15 +34,16 @@
 
     <script>
       async function startClicked() {
-
-        for (var i = 0; i < 100; i++) {          
-          document.getElementById("transparentLayer").style.opacity = 1 - (i*0.01);
-          document.getElementById("scrollingMessages").style.opacity = 1 - (i*0.01);          
+        for (var i = 0; i < 100; i++) {
+          document.getElementById("transparentLayer").style.opacity =
+            1 - i * 0.01;
+          document.getElementById("scrollingMessages").style.opacity =
+            1 - i * 0.01;
           await delay(0.1);
         }
         document.getElementById("scrollingMessages").style.display = "none";
         document.getElementById("transparentLayer").style.display = "none";
-        for (var i = 0; i < 50; i++) {          
+        for (var i = 0; i < 50; i++) {
           document.getElementById("leftContainer").style.width = String(
             50 - i + "vw"
           );
@@ -59,7 +60,6 @@
           setTimeout(resolve, milliseconds);
         });
       }
-
 
       async function getDBfile() {
         let jsonData = await fetch("config.json");
@@ -80,7 +80,6 @@
         let uInt8Array = new Uint8Array(arrayBuffer);
         let db = new SQL.Database(uInt8Array);
         var resultset = db.exec("SELECT * FROM message");
-        // console.log(resultset)
         var columns = resultset[0]["columns"];
         var values = resultset[0]["values"];
         var handle = [];
@@ -91,13 +90,41 @@
           }
           handle.push(obj);
         }
-        
+        messageList = [];
         for (var i = 0; i < handle.length; i++) {
-          // console.log(JSON.stringify(handle[i]));
-          console.log(handle[i].text)
+          messageList.push(handle[i].text);
+        }        
+
+        const unique = new Set(messageList);
+        messageList.sort();
+        phraseCounts = [];
+
+        unique.forEach((phrase) => {
+          const count =
+            messageList.lastIndexOf(phrase) - messageList.indexOf(phrase);
+          thisPhrase = { text: phrase, num: count };
+          phraseCounts.push(thisPhrase);
+        });
+        
+        phraseCounts.sort(compareFrequencies)
+
+        for (var i = 0; i < phraseCounts.length; i++) {
+          if (phraseCounts[i].num != 0 && phraseCounts[i].text != null && phraseCounts[i].text != "") {
+            console.log(phraseCounts[i].text, phraseCounts[i].num);
+          }
         }
-        console.log(handle.length)
+        console.log("done")
       })();
+
+      function compareFrequencies(a, b) {
+        if (a.num < b.num) {
+          return -1;
+        }
+        if (a.num > b.num) {
+          return 1;
+        }
+        return 0;
+      }
 
       function extractTableJSONRecords() {}
     </script>
