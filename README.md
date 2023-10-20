@@ -1,6 +1,6 @@
 # iMessage Tracker #
 
-![Image](https://github.com/vivek-i/imessage-tracker/blob/master/homePage.png?raw=true)
+![Image](https://github.com/vivek-i/imessage-tracker/blob/main/homePage.png?raw=true)
 
 ## About ##
 iMessage Tracker provides basic insights into iMessages stored on MacBooks
